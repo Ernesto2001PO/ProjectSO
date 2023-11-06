@@ -10,6 +10,8 @@ public class WindowOne extends JFrame {
         setLocationRelativeTo(null);
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //Hola pa esto es una prueba de git
+        //Si ves esto hay que hacer un commit
 
 
 

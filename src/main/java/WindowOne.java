@@ -17,6 +17,7 @@ public class WindowOne extends JFrame {
     private DefaultTableModel tableModel;
     private JTable table;
 
+
     public WindowOne() {
         super("Registro para Baile");
         setSize(600, 600);
@@ -101,6 +102,15 @@ public class WindowOne extends JFrame {
 
             // Show the dialog
             dialog.setVisible(true);
+<<<<<<< Updated upstream
+=======
+
+            // Check if the user clicked OK
+          //  if (JOptionPane.OK_OPTION == (int) optionPane.getValue()) {
+                // The user clicked OK, save the registration in the array
+                // Add 'couple' to your array here
+         //   }
+>>>>>>> Stashed changes
         } else {
             // Load the image from the resources directory and create an ImageIcon with it
             ImageIcon imageIcon = new ImageIcon(getClass().getResource("/ErrorRegistro.jpg"));

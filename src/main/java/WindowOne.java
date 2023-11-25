@@ -1,10 +1,10 @@
 import com.google.gson.Gson;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -14,6 +14,8 @@ import java.util.Map;
 public class WindowOne extends JFrame {
     private JTextField person1Field;
     private JTextField person2Field;
+    private DefaultTableModel tableModel;
+    private JTable table;
 
     public WindowOne() {
         super("Registro para Baile");
@@ -52,7 +54,18 @@ public class WindowOne extends JFrame {
             }
         });
         add(submitButton);
+
+        tableModel = new DefaultTableModel();
+        tableModel.addColumn("Nombre de la persona 1");
+        tableModel.addColumn("Nombre de la persona 2");
+
+        table = new JTable(tableModel);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(10, 230, 560, 250);
+        add(scrollPane);
     }
+
     private void checkAndAddCouple() {
         String person1 = person1Field.getText();
         String person2 = person2Field.getText();
@@ -135,6 +148,12 @@ public class WindowOne extends JFrame {
 
 
         }
+        if (isMale(person1) && !isMale(person2) || !isMale(person1) && isMale(person2)) {
+            // Add the couple to the party
+            Couple couple = new Couple(person1, person2, "", "", "", 0);
+            String[] row = {couple.getNameBoy(), couple.getNameGirl()};
+            tableModel.addRow(row);
+        }
     }
 
 
@@ -177,9 +196,3 @@ public class WindowOne extends JFrame {
 
     }
 }
-
-
-// Path: src/main/java/WindowTwo.java
-// Compare this snippet from src/main/java/Couple.java:
-
-

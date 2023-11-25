@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Map;
 
 
@@ -16,7 +17,7 @@ public class WindowOne extends JFrame {
     private JTextField person2Field;
     private DefaultTableModel tableModel;
     private JTable table;
-
+    private ArrayList<Couple> parejasRegistradas = new ArrayList<>();
 
     public WindowOne() {
         super("Registro para Baile");
@@ -52,6 +53,35 @@ public class WindowOne extends JFrame {
         });
         add(submitButton);
 
+        // Crea un nuevo botón
+        JButton danceFloorButton = new JButton("Pista de Baile");
+        danceFloorButton.setBounds(10, 220, 200, 30); // Ajusta la posición y el tamaño según sea necesario
+        add(danceFloorButton);
+
+        // Agrega un ActionListener al botón
+        danceFloorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Crea una nueva instancia de WindowTwo y hazla visible
+                WindowTwo windowTwo = new WindowTwo(new String[10][10]);
+                windowTwo.setVisible(true);
+                // Agrega un ActionListener al botón
+                danceFloorButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // Crea una nueva instancia de WindowTwo y hazla visible
+                        WindowTwo windowTwo = new WindowTwo(new String[10][10]);
+                        windowTwo.setVisible(true);
+
+                        // Llena la matriz con parejas
+                        Couple[] parejas = obtenerParejas(); // Este método debe devolver un array de parejas
+                        windowTwo.llenarMatrizConParejas(parejas);
+                    }
+                });
+
+            }
+        });
+
         tableModel = new DefaultTableModel();
         tableModel.addColumn("Nombre de la persona 1");
         tableModel.addColumn("Nombre de la persona 2");
@@ -61,6 +91,11 @@ public class WindowOne extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(10, 230, 560, 250);
         add(scrollPane);
+    }
+
+    private Couple[] obtenerParejas() {
+        // Crea un array de parejas con el tamaño de la tabla
+        return parejasRegistradas.toArray(new Couple[0]);
     }
 
     private void checkAndAddCouple() {
@@ -78,8 +113,8 @@ public class WindowOne extends JFrame {
             // Obtiene la imagen del ImageIcon
             Image image = imageIcon.getImage();
 
-           //Redimensiona la imagen
-            Image newimg = image.getScaledInstance(300, 200,  java.awt.Image.SCALE_SMOOTH);
+            //Redimensiona la imagen
+            Image newimg = image.getScaledInstance(300, 200, java.awt.Image.SCALE_SMOOTH);
 
             // Crea un nuevo ImageIcon con la imagen redimensionada
             ImageIcon newIcon = new ImageIcon(newimg);
@@ -102,15 +137,13 @@ public class WindowOne extends JFrame {
 
             // Show the dialog
             dialog.setVisible(true);
-<<<<<<< Updated upstream
-=======
+
 
             // Check if the user clicked OK
-          //  if (JOptionPane.OK_OPTION == (int) optionPane.getValue()) {
-                // The user clicked OK, save the registration in the array
-                // Add 'couple' to your array here
-         //   }
->>>>>>> Stashed changes
+            //  if (JOptionPane.OK_OPTION == (int) optionPane.getValue()) {
+            // The user clicked OK, save the registration in the array
+            // Add 'couple' to your array here
+            //   }
         } else {
             // Load the image from the resources directory and create an ImageIcon with it
             ImageIcon imageIcon = new ImageIcon(getClass().getResource("/ErrorRegistro.jpg"));
@@ -119,7 +152,7 @@ public class WindowOne extends JFrame {
             Image image = imageIcon.getImage();
 
             //Redimensiona la imagen
-            Image newimg = image.getScaledInstance(300, 200,  java.awt.Image.SCALE_SMOOTH);
+            Image newimg = image.getScaledInstance(300, 200, java.awt.Image.SCALE_SMOOTH);
 
             // Crea un nuevo ImageIcon con la imagen redimensionada
             ImageIcon newIcon = new ImageIcon(newimg);
@@ -142,7 +175,6 @@ public class WindowOne extends JFrame {
 
             // Show the dialog
             dialog.setVisible(true);
-
 
 
         }
@@ -188,9 +220,9 @@ public class WindowOne extends JFrame {
         }
     }
 
+
     public static void main(String[] args) {
         WindowOne partyWindow = new WindowOne();
         partyWindow.setVisible(true);
-
     }
 }

@@ -25,10 +25,6 @@ public class WindowOne extends JFrame {
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Set background image
-        setContentPane(new JLabel(new ImageIcon("path_to_your_image.jpg")));
-
-
         // Add text fields for entering names
         person1Field = new JTextField();
         person1Field.setBounds(10, 80, 200, 30);
@@ -105,14 +101,6 @@ public class WindowOne extends JFrame {
 
             // Show the dialog
             dialog.setVisible(true);
-
-
-
-            // Check if the user clicked OK
-          //  if (JOptionPane.OK_OPTION == (int) optionPane.getValue()) {
-                // The user clicked OK, save the registration in the array
-                // Add 'couple' to your array here
-         //   }
         } else {
             // Load the image from the resources directory and create an ImageIcon with it
             ImageIcon imageIcon = new ImageIcon(getClass().getResource("/ErrorRegistro.jpg"));
@@ -149,7 +137,7 @@ public class WindowOne extends JFrame {
 
         }
         if (isMale(person1) && !isMale(person2) || !isMale(person1) && isMale(person2)) {
-            // Add the couple to the party
+            // Añade la pareja a la tabla
             Couple couple = new Couple(person1, person2, "", "", "", 0);
             String[] row = {couple.getNameBoy(), couple.getNameGirl()};
             tableModel.addRow(row);

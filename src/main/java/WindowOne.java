@@ -63,31 +63,15 @@ public class WindowOne extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Crea una nueva instancia de WindowTwo y hazla visible
-                WindowTwo windowTwo = new WindowTwo(new String[10][10]);
+                WindowTwo windowTwo = new WindowTwo(new String[6][6]);
                 windowTwo.setVisible(true);
-                // Agrega un ActionListener al botón
-                danceFloorButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        // Crea una nueva instancia de WindowTwo y hazla visible
-                        WindowTwo windowTwo = new WindowTwo(new String[10][10]);
-                        windowTwo.setVisible(true);
-
-                        // Llena la matriz con parejas
-                        Couple[] parejas = obtenerParejas(); // Este método debe devolver un array de parejas
-                        windowTwo.llenarMatrizConParejas(parejas);
-                    }
-                });
-
             }
         });
-
         tableModel = new DefaultTableModel();
         tableModel.addColumn("Nombre de la persona 1");
         tableModel.addColumn("Nombre de la persona 2");
 
         table = new JTable(tableModel);
-
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(10, 230, 560, 250);
         add(scrollPane);
@@ -138,12 +122,6 @@ public class WindowOne extends JFrame {
             // Show the dialog
             dialog.setVisible(true);
 
-
-            // Check if the user clicked OK
-            //  if (JOptionPane.OK_OPTION == (int) optionPane.getValue()) {
-            // The user clicked OK, save the registration in the array
-            // Add 'couple' to your array here
-            //   }
         } else {
             // Load the image from the resources directory and create an ImageIcon with it
             ImageIcon imageIcon = new ImageIcon(getClass().getResource("/ErrorRegistro.jpg"));
@@ -218,11 +196,5 @@ public class WindowOne extends JFrame {
             e.printStackTrace();
             return false;
         }
-    }
-
-
-    public static void main(String[] args) {
-        WindowOne partyWindow = new WindowOne();
-        partyWindow.setVisible(true);
     }
 }

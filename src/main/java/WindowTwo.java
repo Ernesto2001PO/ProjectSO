@@ -4,9 +4,9 @@ import java.awt.*;
 public class WindowTwo extends JFrame {
 
     private JPanel panelMatriz;
-    private String[][] matrizParejas;
+    private Couple [][] matrizParejas;
 
-    public WindowTwo(String[][] matrizParejas) {
+    public WindowTwo(Couple [][] matrizParejas) {
         this.matrizParejas = matrizParejas;
 
         setTitle("Ventana dos - Matriz de parejas");
@@ -18,6 +18,7 @@ public class WindowTwo extends JFrame {
         initComponents();
 
     }
+
     private void initComponents() {
 
         // Cargar la imagen de fondo en un ImageIcon
@@ -44,14 +45,32 @@ public class WindowTwo extends JFrame {
         panelMatriz = new JPanel(new GridLayout(matrizParejas.length, matrizParejas[0].length));
         panelMatriz.setPreferredSize(new Dimension(400, 400)); // Tamaño de la matriz
 
+        // Cargar la imagen de la pareja en un ImageIcon
+        ImageIcon imagenPareja = new ImageIcon(getClass().getResource("/Pareja.jpg"));
+
+        // Escalar la imagen
+        Image imagePareja = imagenPareja.getImage();
+        Image scaledImagePareja = imagePareja.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+        imagenPareja = new ImageIcon(scaledImagePareja);
+
+
         // Recorrer la matriz y agregar etiquetas JLabel al panel para mostrar la matriz
         for (int i = 0; i < matrizParejas.length; i++) {
             for (int j = 0; j < matrizParejas[0].length; j++) {
-                GradientLabel label;
-                if ((i + j) % 2 == 0) {
-                    label = new GradientLabel(matrizParejas[i][j], Color.BLUE, Color.WHITE);
+                JLabel label;
+                if (matrizParejas[i][j] != null) {
+                    // Si hay una pareja en esta posición, muestra la imagen de la pareja
+                    label = new JLabel(imagenPareja);
+                   // Establece el tooltip del JLabel con los nombres de la pareja
+                    label.setToolTipText(matrizParejas[i][j].getNameBoy() + " y " + matrizParejas[i][j].getNameGirl());
+
+
+
+
                 } else {
-                    label = new GradientLabel(matrizParejas[i][j], Color.YELLOW, Color.WHITE);
+                    // Si no hay una pareja en esta posición, muestra un JLabel con un color de fondo específico
+                    label = new GradientLabel("Vacio", Color.BLUE, Color.WHITE);
+
                 }
 
                 label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -69,5 +88,21 @@ public class WindowTwo extends JFrame {
 
         // Agrega el JLabel de fondo a la ventana
         add(labelFondo);
+
+        // Llama a repaint y revalidate para actualizar el panel de la matriz
+        panelMatriz.repaint();
+        panelMatriz.revalidate();
     }
+    public void updateWindow() {
+        // Elimina todos los componentes del panel de la matriz
+        panelMatriz.removeAll();
+
+        // Recrea la matriz y agrega los componentes al panel de la matriz
+        initComponents();
+
+        // Actualiza la interfaz gráfica de usuario
+        panelMatriz.repaint();
+        panelMatriz.revalidate();
+    }
+
 }

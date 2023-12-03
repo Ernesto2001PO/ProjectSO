@@ -17,7 +17,8 @@ public class WindowOne extends JFrame {
     private JTextField person2Field;
     private DefaultTableModel tableModel;
     private JTable table;
-    private ArrayList<Couple> parejasRegistradas = new ArrayList<>();
+    private Couple[][] matrizParejas = new Couple[6][6];
+    private WindowTwo windowTwo;
 
     public WindowOne() {
         super("Registro para Baile");
@@ -26,6 +27,8 @@ public class WindowOne extends JFrame {
         setLocationRelativeTo(null);
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        windowTwo = new WindowTwo(matrizParejas);
 
         // Add text fields for entering names
         person1Field = new JTextField();
@@ -63,7 +66,7 @@ public class WindowOne extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Crea una nueva instancia de WindowTwo y hazla visible
-                WindowTwo windowTwo = new WindowTwo(new String[6][6]);
+                WindowTwo windowTwo = new WindowTwo(matrizParejas);
                 windowTwo.setVisible(true);
             }
         });
@@ -77,11 +80,6 @@ public class WindowOne extends JFrame {
         add(scrollPane);
     }
 
-    private Couple[] obtenerParejas() {
-        // Crea un array de parejas con el tamaño de la tabla
-        return parejasRegistradas.toArray(new Couple[0]);
-    }
-
     private void checkAndAddCouple() {
         String person1 = person1Field.getText();
         String person2 = person2Field.getText();
@@ -89,7 +87,7 @@ public class WindowOne extends JFrame {
         // Check if the couple is a man and a woman
         if (isMale(person1) && !isMale(person2) || !isMale(person1) && isMale(person2)) {
             // Add the couple to the party
-            Couple couple = new Couple(person1, person2, "", "", "", 0);
+            Couple couple = new Couple(person1, person2);
 
             // Load the image from the resources directory and create an ImageIcon with it
             ImageIcon imageIcon = new ImageIcon(getClass().getResource("/RegistroCorrecto.png"));
@@ -158,9 +156,36 @@ public class WindowOne extends JFrame {
         }
         if (isMale(person1) && !isMale(person2) || !isMale(person1) && isMale(person2)) {
             // Añade la pareja a la tabla
-            Couple couple = new Couple(person1, person2, "", "", "", 0);
+            Couple couple = new Couple(person1, person2);
             String[] row = {couple.getNameBoy(), couple.getNameGirl()};
             tableModel.addRow(row);
+            outerloop:
+            // Añade la pareja a la matriz
+            for (int i = 0; i < matrizParejas.length; i++) {
+                for (int j = 0; j < matrizParejas[i].length; j++) {
+                    if (matrizParejas[i][j] == null) {
+                        matrizParejas[i][j] = couple;
+
+                        break outerloop;
+                    }
+                }
+            }
+            windowTwo.updateWindow();
+        }
+        // Llama a la función displayDanceFloor para visualizar la matriz
+        displayDanceFloor();
+
+    }
+    public void displayDanceFloor() {
+        for (int i = 0; i < matrizParejas.length; i++) {
+            for (int j = 0; j < matrizParejas[i].length; j++) {
+                if (matrizParejas[i][j] != null) {
+                    System.out.print(matrizParejas[i][j].getNameBoy() + " y " + matrizParejas[i][j].getNameGirl() + "\t");
+                } else {
+                    System.out.print("Vacío\t");
+                }
+            }
+            System.out.println();
         }
     }
 

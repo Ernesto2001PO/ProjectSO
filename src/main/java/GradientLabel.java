@@ -6,7 +6,7 @@ class GradientLabel extends JLabel {
     private Color color2;
 
     public GradientLabel(String text, Color color1, Color color2) {
-        super(text);
+        super(text); // Convertir el objeto Couple en un String
         this.color1 = color1;
         this.color2 = color2;
         setOpaque(false);

@@ -69,7 +69,7 @@ public class WindowTwo extends JFrame {
 
                 } else {
                     // Si no hay una pareja en esta posición, muestra un JLabel con un color de fondo específico
-                    label = new GradientLabel("Vacio", Color.BLUE, Color.WHITE);
+                    label = new GradientLabel(" ", Color.BLUE, Color.WHITE);
 
                 }
 

@@ -23,12 +23,23 @@ public class WindowOne extends JFrame {
     public WindowOne() {
         super("Registro para Baile");
         setSize(600, 600);
-        setResizable(true);
+        setResizable(false);
         setLocationRelativeTo(null);
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        getContentPane().setBackground(new Color(0x878787));
+
         windowTwo = new WindowTwo(matrizParejas);
+
+        // Agrega la imagen del logo en la parte superior derecha
+        ImageIcon imgLogo = new ImageIcon(getClass().getResource("SecondWindowLogo.png"));
+        int maxLogoSize = 300;  // Tamaño máximo de la imagen
+        int scaledWidth = Math.min(imgLogo.getIconWidth(), maxLogoSize);
+        int scaledHeight = Math.min(imgLogo.getIconHeight(), maxLogoSize);
+        JLabel logoLabel = new JLabel(new ImageIcon(imgLogo.getImage().getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH)));
+        logoLabel.setBounds(600 - scaledWidth, 0, scaledWidth, scaledHeight);
+        add(logoLabel);
 
         // Add text fields for entering names
         person1Field = new JTextField();
@@ -58,7 +69,7 @@ public class WindowOne extends JFrame {
 
         // Crea un nuevo botón
         JButton danceFloorButton = new JButton("Pista de Baile");
-        danceFloorButton.setBounds(10, 220, 200, 30); // Ajusta la posición y el tamaño según sea necesario
+        danceFloorButton.setBounds(10, 250, 200, 30); // Ajusta la posición y el tamaño según sea necesario
         add(danceFloorButton);
 
         // Agrega un ActionListener al botón
@@ -76,7 +87,7 @@ public class WindowOne extends JFrame {
 
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(10, 230, 560, 250);
+        scrollPane.setBounds(10, 300, 560, 250);
         add(scrollPane);
     }
 

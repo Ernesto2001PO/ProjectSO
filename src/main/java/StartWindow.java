@@ -2,8 +2,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class StartWindow extends JFrame {
-    public StartWindow(){
+public class StartWindow extends javax.swing.JFrame{
+
+    public StartWindow() {
         super("Bienvenidos a Technologie Club");
         setSize(1000, 600);
         setResizable(true);
@@ -11,10 +12,10 @@ public class StartWindow extends JFrame {
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //Creando el background
-        ImageIcon logoPrueba = new ImageIcon(StartWindow.class.getResource("logoejemplo1.png"));
-        JLabel labellogoPrueba = new JLabel(logoPrueba);
-        labellogoPrueba.setBounds(0,0,1000,600);
+        ImageIcon logoInicio = new ImageIcon(getClass().getResource("LogoFInal.png"));
+        JLabel logoInicioLabel = new JLabel(logoInicio);
+        logoInicioLabel.setBounds(0, 0, 1000, 600);
+        add(logoInicioLabel);
 
 
         JButton registrarButton = new JButton("Registrar");
@@ -25,21 +26,19 @@ public class StartWindow extends JFrame {
                 openWindowOne();
             }
         });
-        labellogoPrueba.add(registrarButton);
-        add(labellogoPrueba);
+        add(registrarButton);
     }
-    private void openWindowOne(){
+
+    private void openWindowOne() {
         WindowOne windowOne = new WindowOne();
         windowOne.setVisible(true);
         dispose();
     }
+
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                StartWindow startWindow = new StartWindow();
-                startWindow.setVisible(true);
-            }
+        SwingUtilities.invokeLater(() -> {
+            StartWindow startWindow = new StartWindow();
+            startWindow.setVisible(true);
         });
     }
 }

@@ -17,7 +17,7 @@ public class StartWindow extends javax.swing.JFrame{
         logoInicioLabel.setBounds(0, 0, 1000, 600);
         add(logoInicioLabel);
 
-
+        // Agrega la imagen del logo en la parte superior derecha
         JButton registrarButton = new JButton("Registrar");
         registrarButton.setBounds(425, 400, 100, 30);
         registrarButton.addActionListener(new ActionListener() {
@@ -29,16 +29,19 @@ public class StartWindow extends javax.swing.JFrame{
         add(registrarButton);
     }
 
+    // Abre la ventana uno
     private void openWindowOne() {
         WindowOne windowOne = new WindowOne();
         windowOne.setVisible(true);
         dispose();
     }
 
+    // Abre la ventana dos
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             StartWindow startWindow = new StartWindow();
             startWindow.setVisible(true);
+
         });
     }
 }

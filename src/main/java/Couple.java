@@ -1,12 +1,14 @@
 public class Couple {
     public String nameBoy, nameGirl;
 
+    // Constructor
     public Couple(String nameBoy, String nameGirl) {
         this.nameBoy = nameBoy;
         this.nameGirl = nameGirl;
 
     }
 
+    // Getters y Setters
     public String getNameBoy() {
         return nameBoy;
     }

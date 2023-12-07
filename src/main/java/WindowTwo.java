@@ -1,12 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class WindowTwo extends JFrame {
 
     private JPanel panelMatriz;
-    private Couple [][] matrizParejas;
+    private Couple[][] matrizParejas;
 
-    public WindowTwo(Couple [][] matrizParejas) {
+    public WindowTwo(Couple[][] matrizParejas) {
         this.matrizParejas = matrizParejas;
 
         setTitle("Ventana dos - Matriz de parejas");
@@ -15,8 +17,100 @@ public class WindowTwo extends JFrame {
         setResizable(false);
         setLayout(new BorderLayout()); // Establecer el layout de la ventana como BorderLayout
 
-        initComponents();
+        // Boton Bailar que hace llama al hilo
+        JButton bailarButton = new JButton("Bailar");
+        bailarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        danceAnimation();
+                        return null;
+                    }
+                }.execute();
+            }
+        });
 
+        initComponents();
+        add(bailarButton, BorderLayout.SOUTH);
+    }
+
+    private void danceAnimation() {
+        // Recorre la matriz
+        for (int i = 0; i < matrizParejas.length; i++) {
+            for (int j = 0; j < matrizParejas[i].length; j++) {
+                // Si hay una pareja en esta posición
+                if (matrizParejas[i][j] != null) {
+                    // Muestra el nombre de la pareja en la consola
+
+                    // Muestra la imagen de la pareja en la posición actual con movimiento de sacudida
+                    shakeImage(i * matrizParejas.length + j);
+
+                    // Espera 1 segundo
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    // Restaura la imagen de la pareja en la posición actual
+                    restoreImage(i * matrizParejas.length + j);
+                }
+            }
+        }
+    }
+
+    private void shakeImage(int position) {
+        ImageIcon imagenPareja = new ImageIcon(getClass().getResource("/Pareja.jpg"));
+
+        // Escala la imagen
+        Image imagePareja = imagenPareja.getImage();
+        Image scaledImagePareja = imagePareja.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+        imagenPareja = new ImageIcon(scaledImagePareja);
+
+        // Obtiene el JLabel en la posición actual
+        JLabel label = (JLabel) panelMatriz.getComponent(position);
+
+        // Guarda la posición original
+        int originalX = label.getX();
+
+        // Mueve la imagen hacia la derecha y luego hacia la izquierda
+        for (int i = 0; i < 5; i++) {
+            label.setLocation(originalX + 5, label.getY());
+
+            // Espera un breve tiempo para el efecto de movimiento
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            label.setLocation(originalX, label.getY());
+
+            // Espera un breve tiempo para el efecto de movimiento
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Restaura la posición original
+        label.setLocation(originalX, label.getY());
+    }
+
+    private void restoreImage(int position) {
+        ImageIcon imagenPareja = new ImageIcon(getClass().getResource("/Pareja.jpg"));
+
+        // Escala la imagen
+        Image imagePareja = imagenPareja.getImage();
+        Image scaledImagePareja = imagePareja.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+        imagenPareja = new ImageIcon(scaledImagePareja);
+
+        // Restaura la imagen original en la posición actual
+        JLabel label = (JLabel) panelMatriz.getComponent(position);
+        label.setIcon(imagenPareja);
     }
 
     private void initComponents() {
@@ -104,5 +198,46 @@ public class WindowTwo extends JFrame {
         panelMatriz.repaint();
         panelMatriz.revalidate();
     }
+
+
+    //Threads que hace la simulacion del baile
+    Thread thread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            // Recorre la matriz
+            for (int i = 0; i < matrizParejas.length; i++) {
+                for (int j = 0; j < matrizParejas[i].length; j++) {
+                    // Si hay una pareja en esta posición
+                    if (matrizParejas[i][j] != null) {
+                        // Muestra el nombre de la pareja en la consola
+                        System.out.println(matrizParejas[i][j].getNameBoy() + " y " + matrizParejas[i][j].getNameGirl() + " bailan en la posición " + i + ", " + j);
+
+                        // Muestra la imagen de la pareja en la posición actual
+                        JLabel label = (JLabel) panelMatriz.getComponent(i * matrizParejas.length + j);
+                        label.setIcon(new ImageIcon(getClass().getResource("/Pareja.jpg")));
+
+                        // Espera 1 segundo
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+
+                        // Muestra un JLabel con un color de fondo específico en la posición actual
+                        label = new GradientLabel(" ", Color.BLUE, Color.WHITE);
+                        label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                        label.setHorizontalAlignment(JLabel.CENTER);
+                        label.setVerticalAlignment(JLabel.CENTER);
+                        panelMatriz.add(label, i * matrizParejas.length + j);
+
+                        // Actualiza la interfaz gráfica de usuario
+                        panelMatriz.repaint();
+                        panelMatriz.revalidate();
+                    }
+                }
+            }
+        }
+    });
 
 }

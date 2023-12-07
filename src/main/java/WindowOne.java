@@ -20,32 +20,41 @@ public class WindowOne extends JFrame {
     private Couple[][] matrizParejas = new Couple[6][6];
     private WindowTwo windowTwo;
 
+    private class BackgroundPanel extends JPanel {
+        private Image backgroundImage;
+
+        public BackgroundPanel() {
+            // Carga la imagen de fondo
+            backgroundImage = new ImageIcon(getClass().getResource("backgroundWindowOne.png")).getImage();
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            // Dibuja la imagen de fondo
+            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+        }
+    }
+
     public WindowOne() {
         super("Registro para Baile");
+
         setSize(600, 600);
         setResizable(false);
         setLocationRelativeTo(null);
-        setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        getContentPane().setBackground(new Color(0x878787));
-
         windowTwo = new WindowTwo(matrizParejas);
 
-        // Agrega la imagen del logo en la parte superior derecha
-        ImageIcon imgLogo = new ImageIcon(getClass().getResource("SecondWindowLogo.png"));
-        int maxLogoSize = 300;  // Tamaño máximo de la imagen
-        int scaledWidth = Math.min(imgLogo.getIconWidth(), maxLogoSize);
-        int scaledHeight = Math.min(imgLogo.getIconHeight(), maxLogoSize);
-        JLabel logoLabel = new JLabel(new ImageIcon(imgLogo.getImage().getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH)));
-        logoLabel.setBounds(600 - scaledWidth, 0, scaledWidth, scaledHeight);
-        add(logoLabel);
+        // Usa el panel de fondo personalizado
+        BackgroundPanel fondoPanel = new BackgroundPanel();
+        fondoPanel.setLayout(null);
 
         // Add text fields for entering names
         person1Field = new JTextField();
         person1Field.setBounds(10, 80, 200, 30);
         add(person1Field);
         JLabel label2 = new JLabel("Nombre de la persona 1");
+        label2.setForeground(Color.white);
         label2.setBounds(10, 50, 200, 30);
         add(label2);
 
@@ -53,10 +62,11 @@ public class WindowOne extends JFrame {
         person2Field.setBounds(10, 150, 200, 30);
         add(person2Field);
         JLabel label3 = new JLabel("Nombre de la persona 2");
+        label3.setForeground(Color.white);
         label3.setBounds(10, 120, 200, 30);
         add(label3);
 
-        // Add submit button
+        // Añade un botón
         JButton submitButton = new JButton("Registrar");
         submitButton.setBounds(10, 190, 200, 30);
         submitButton.addActionListener(new ActionListener() {
@@ -89,6 +99,16 @@ public class WindowOne extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(10, 300, 560, 250);
         add(scrollPane);
+        fondoPanel.add(person1Field);
+        fondoPanel.add(label2);
+        fondoPanel.add(person2Field);
+        fondoPanel.add(label3);
+        fondoPanel.add(submitButton);
+        fondoPanel.add(danceFloorButton);
+        fondoPanel.add(scrollPane);
+
+        // Establece el panel de fondo como el contenido principal de la ventana
+        setContentPane(fondoPanel);
     }
 
     private void checkAndAddCouple() {
@@ -163,8 +183,9 @@ public class WindowOne extends JFrame {
             // Show the dialog
             dialog.setVisible(true);
 
-
         }
+
+
         if (isMale(person1) && !isMale(person2) || !isMale(person1) && isMale(person2)) {
             // Añade la pareja a la tabla
             Couple couple = new Couple(person1, person2);
@@ -186,6 +207,8 @@ public class WindowOne extends JFrame {
         // Llama a la función displayDanceFloor para visualizar la matriz
         displayDanceFloor();
 
+        person1Field.setText("");
+        person2Field.setText("");
     }
     public void displayDanceFloor() {
         for (int i = 0; i < matrizParejas.length; i++) {
